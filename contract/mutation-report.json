@@ -1,0 +1,126 @@
+{
+  "guards": 20,
+  "killed": 20,
+  "rows": [
+    {
+      "line": 87,
+      "guard": "organizer only",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) only the organiser sets up the event"
+    },
+    {
+      "line": 94,
+      "guard": "judges are added before scoring opens",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) the panel and project list freeze once scoring opens"
+    },
+    {
+      "line": 101,
+      "guard": "projects are added before scoring opens",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) the panel and project list freeze once scoring opens"
+    },
+    {
+      "line": 103,
+      "guard": "project already registered",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) a project is registered once"
+    },
+    {
+      "line": 110,
+      "guard": "scoring already opened",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) scoring cannot open with no judges, or twice"
+    },
+    {
+      "line": 111,
+      "guard": "no judges",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) scoring cannot open with no judges, or twice"
+    },
+    {
+      "line": 117,
+      "guard": "scoring is not open",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) no ballots before scoring opens or after it closes; close only while open"
+    },
+    {
+      "line": 127,
+      "guard": "scoring is not open",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) no ballots before scoring opens or after it closes; close only while open"
+    },
+    {
+      "line": 129,
+      "guard": "unknown project",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) unknown projects are refused"
+    },
+    {
+      "line": 134,
+      "guard": "path is not for this judge",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) an outsider cannot cast a ballot"
+    },
+    {
+      "line": 135,
+      "guard": "judges only",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) an outsider with a self-made Merkle path for their own leaf is refused"
+    },
+    {
+      "line": 138,
+      "guard": "already judged this project",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) a judge scores a project once and cannot change it"
+    },
+    {
+      "line": 141,
+      "guard": "scorecard is for another round",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) a scorecard must name this project and this round"
+    },
+    {
+      "line": 142,
+      "guard": "scorecard is for another project",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) a scorecard must name this project and this round"
+    },
+    {
+      "line": 144,
+      "guard": "score above the rubric maximum",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) scores are bounded by the rubric maximum, boundary included"
+    },
+    {
+      "line": 148,
+      "guard": "panel is full",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) a fourth ballot is refused"
+    },
+    {
+      "line": 170,
+      "guard": "scoring is still open",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) totals wait for scoring to close and are published once"
+    },
+    {
+      "line": 172,
+      "guard": "unknown project",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) unknown projects are refused"
+    },
+    {
+      "line": 173,
+      "guard": "totals already published",
+      "kills": 1,
+      "by": "refusals (each guard, matched by its message) totals wait for scoring to close and are published once"
+    },
+    {
+      "line": 180,
+      "guard": "opening does not match the locked ballot",
+      "kills": 2,
+      "by": "attacks on results a team cannot inflate its totals by editing a receipt"
+    }
+  ]
+}

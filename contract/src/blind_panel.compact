@@ -1,0 +1,188 @@
+// Blind Panel: private, verifiable hackathon judging on Midnight.
+// SPDX-License-Identifier: Apache-2.0
+//
+// What is public:  which projects are judged, how many ballots each has, a salted
+//                  commitment per ballot, and (after judging closes) each project's
+//                  per-criterion totals.
+// What stays private: which judge cast which ballot, every individual score,
+//                  and the salts. A judge is only a leaf in a Merkle tree.
+//
+// A ballot can be cast once per judge per project and never changed: the
+// nullifier is spent and the commitment is write-once. The team receives its
+// ballots' openings off-chain as receipts and can check each one against the
+// ledger, or publish its own totals with them. No one has to trust the organiser.
+
+pragma language_version >= 0.25;
+
+import CompactStandardLibrary;
+
+export enum Phase { setup, scoring, closed }
+
+// Number of rubric criteria and judges per project (a 3-judge panel, as in
+// VandyHacks Witness and HackGT expo judging).
+export struct ScoreCard {
+  round: Uint<32>;
+  project: Bytes<32>;
+  scores: Vector<5, Uint<8>>;
+}
+
+export struct Opening {
+  card: ScoreCard;
+  salt: Bytes<32>;
+}
+
+export sealed ledger organizer: Bytes<32>;
+export sealed ledger maxScore: Uint<8>;
+export ledger phase: Phase;
+export ledger round: Uint<32>;
+export ledger judges: MerkleTree<8, Bytes<32>>;
+export ledger judgeCount: Uint<16>;
+export ledger projects: Set<Bytes<32>>;
+export ledger spent: Set<Bytes<32>>;
+export ledger panelSize: Map<Bytes<32>, Uint<8>>;
+export ledger ballots: Map<Bytes<32>, Bytes<32>>;
+export ledger totals: Map<Bytes<32>, Vector<5, Uint<16>>>;
+export ledger ballotCount: Counter;
+
+witness organizerSecret(): Bytes<32>;
+witness judgeSecret(): Bytes<32>;
+witness judgePath(leaf: Bytes<32>): MerkleTreePath<8, Bytes<32>>;
+witness ballotCard(): ScoreCard;
+witness ballotSalt(): Bytes<32>;
+witness projectOpenings(project: Bytes<32>): Vector<3, Opening>;
+
+constructor(organizerKey: Bytes<32>, maxScoreInit: Uint<8>) {
+  organizer = disclose(organizerKey);
+  maxScore = disclose(maxScoreInit);
+  phase = Phase.setup;
+  round = 1;
+  judgeCount = 0;
+}
+
+// ── derivations (each hash has its own domain tag) ────────────────────────────
+
+export pure circuit organizerKeyOf(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([pad(32, "blindpanel:organizer:v1"), sk]);
+}
+
+export pure circuit judgeLeafOf(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([pad(32, "blindpanel:judge:v1"), sk]);
+}
+
+export pure circuit nullifierOf(rnd: Uint<32>, project: Bytes<32>, sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<4, Bytes<32>>>(
+    [pad(32, "blindpanel:ballot-nul:v1"), (rnd as Field) as Bytes<32>, project, sk]);
+}
+
+export pure circuit slotOf(project: Bytes<32>, i: Uint<8>): Bytes<32> {
+  return persistentHash<Vector<3, Bytes<32>>>(
+    [pad(32, "blindpanel:slot:v1"), project, (i as Field) as Bytes<32>]);
+}
+
+export pure circuit commitmentOf(card: ScoreCard, salt: Bytes<32>): Bytes<32> {
+  return persistentCommit<ScoreCard>(card, salt);
+}
+
+circuit assertOrganizer(): [] {
+  assert(organizerKeyOf(organizerSecret()) == organizer, "organizer only");
+}
+
+// ── organiser setup ───────────────────────────────────────────────────────────
+
+export circuit addJudge(leaf: Bytes<32>): [] {
+  assertOrganizer();
+  assert(phase == Phase.setup, "judges are added before scoring opens");
+  judges.insert(disclose(leaf));
+  judgeCount = (judgeCount + 1) as Uint<16>;
+}
+
+export circuit addProject(project: Bytes<32>): [] {
+  assertOrganizer();
+  assert(phase == Phase.setup, "projects are added before scoring opens");
+  const p = disclose(project);
+  assert(!projects.member(p), "project already registered");
+  projects.insert(p);
+  panelSize.insert(p, 0);
+}
+
+export circuit openScoring(): [] {
+  assertOrganizer();
+  assert(phase == Phase.setup, "scoring already opened");
+  assert(judgeCount > 0, "no judges");
+  phase = Phase.scoring;
+}
+
+export circuit closeScoring(): [] {
+  assertOrganizer();
+  assert(phase == Phase.scoring, "scoring is not open");
+  phase = Phase.closed;
+}
+
+// ── judging ──────────────────────────────────────────────────────────────────
+
+// A judge locks one scorecard for one project. Nobody learns which judge, or
+// the scores; everybody can see that a fourth ballot or a second ballot from
+// the same judge is refused.
+export circuit castBallot(project: Bytes<32>): [] {
+  assert(phase == Phase.scoring, "scoring is not open");
+  const p = disclose(project);
+  assert(projects.member(p), "unknown project");
+
+  const sk = judgeSecret();
+  const leaf = judgeLeafOf(sk);
+  const path = judgePath(leaf);
+  assert(path.leaf == leaf, "path is not for this judge");
+  assert(judges.checkRoot(disclose(merkleTreePathRoot<8, Bytes<32>>(path))), "judges only");
+
+  const nul = disclose(nullifierOf(round, p, sk));
+  assert(!spent.member(nul), "already judged this project");
+
+  const card = ballotCard();
+  assert(card.round == round, "scorecard is for another round");
+  assert(card.project == p, "scorecard is for another project");
+  for (const s of card.scores) {
+    assert(s <= maxScore, "score above the rubric maximum");
+  }
+
+  const n = panelSize.lookup(p);
+  assert(n < 3, "panel is full");
+  const slot = slotOf(p, n);
+  ballots.insert(slot, disclose(commitmentOf(card, ballotSalt())));
+  panelSize.insert(p, (n + 1) as Uint<8>);
+  spent.insert(nul);
+  ballotCount.increment(1);
+}
+
+// ── receipts and results ─────────────────────────────────────────────────────
+
+// Anyone holding a ballot's opening (the team gets it as its receipt) can check
+// it against the ledger. Changes nothing.
+export circuit checkReceipt(project: Bytes<32>, i: Uint<8>, opening: Opening): Boolean {
+  const slot = slotOf(disclose(project), disclose(i));
+  return ballots.member(slot) &&
+    ballots.lookup(slot) == commitmentOf(opening.card, opening.salt);
+}
+
+// After scoring closes, whoever holds every opening for a project (the team,
+// from its receipts) publishes its per-criterion totals. Each opening must match
+// its locked commitment, so the totals cannot be inflated or quietly dropped.
+export circuit publishTotals(project: Bytes<32>): [] {
+  assert(phase == Phase.closed, "scoring is still open");
+  const p = disclose(project);
+  assert(projects.member(p), "unknown project");
+  assert(!totals.member(p), "totals already published");
+
+  const n = panelSize.lookup(p);
+  const ops = projectOpenings(p);
+  const sum = fold((acc: Vector<5, Uint<16>>, op: Opening, i: Uint<8>): Vector<5, Uint<16>> => {
+      const used = i < n;
+      if (used) {
+        assert(ballots.lookup(slotOf(p, i)) == commitmentOf(op.card, op.salt),
+               "opening does not match the locked ballot");
+      }
+      return map((a: Uint<16>, s: Uint<8>): Uint<16> => used ? (a + s) as Uint<16> : a,
+                 acc, op.card.scores);
+    },
+    [0, 0, 0, 0, 0], ops, [0, 1, 2]);
+  totals.insert(p, disclose(sum));
+}

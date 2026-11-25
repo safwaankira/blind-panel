@@ -1,0 +1,17 @@
+{
+  "name": "@blind-panel/contract",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "compile": "compact compile +0.36.1 src/blind_panel.compact build",
+    "compile:fast": "compact compile +0.36.1 --skip-zk src/blind_panel.compact build",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@midnight-ntwrk/compact-runtime": "0.21.0",
+    "vitest": "^4.0.18",
+    "typescript": "^5.9.3"
+  }
+}
