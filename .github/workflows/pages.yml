@@ -1,0 +1,60 @@
+name: test and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  COMPACT_VERSION: "0.36.1"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Compact compiler
+        run: |
+          mkdir -p "$HOME/compactc"
+          curl -sSL -o /tmp/compactc.zip \
+            "https://github.com/midnightntwrk/compact/releases/download/compactc-v${COMPACT_VERSION}/compactc_v${COMPACT_VERSION}_x86_64-unknown-linux-musl.zip"
+          unzip -oq /tmp/compactc.zip -d "$HOME/compactc"
+          echo "$HOME/compactc" >> "$GITHUB_PATH"
+      - name: Compile contract
+        working-directory: contract
+        run: compactc --skip-zk src/blind_panel.compact build
+      - name: Test contract
+        working-directory: contract
+        run: |
+          npm ci --legacy-peer-deps
+          npm test
+      - name: Build app
+        working-directory: web
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
