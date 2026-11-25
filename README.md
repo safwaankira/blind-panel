@@ -2,7 +2,7 @@
 
 Hackathon judging on Midnight where judges stay anonymous, scores lock, and every team gets a receipt it can check.
 
-**Try it:** open the app, press **Run a demo round**, then open **Try to cheat**. The contract's compiled circuits run in your browser tab against a local copy of the ledger. No wallet, no sign-in.
+**Try it:** open [safwaankira.github.io/blind-panel](https://safwaankira.github.io/blind-panel/), press **Run a demo round**, then open **Try to cheat**. The contract's compiled circuits run in your browser tab against a local copy of the ledger. No wallet, no sign-in.
 
 ## Why
 
