@@ -1,6 +1,6 @@
 {
-  "guards": 20,
-  "killed": 20,
+  "guards": 21,
+  "killed": 21,
   "rows": [
     {
       "line": 87,
@@ -117,7 +117,13 @@
       "by": "refusals (each guard, matched by its message) totals wait for scoring to close and are published once"
     },
     {
-      "line": 180,
+      "line": 178,
+      "guard": "at least two ballots before totals",
+      "kills": 2,
+      "by": "refusals (each guard, matched by its message) a single judge's scores are never published as totals"
+    },
+    {
+      "line": 183,
       "guard": "opening does not match the locked ballot",
       "kills": 2,
       "by": "attacks on results a team cannot inflate its totals by editing a receipt"

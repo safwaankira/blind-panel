@@ -118,12 +118,27 @@ describe("refusals (each guard, matched by its message)", () => {
   });
 
   it("totals wait for scoring to close and are published once", async () => {
-    const p = await Panel.ready(["judge-ada"], ["tally"]);
-    const r = [await p.castBallot(ADA, A, [5, 5, 5, 5, 5])];
+    const p = await Panel.ready(["judge-ada", "judge-ben"], ["tally"]);
+    const r = [await p.castBallot(ADA, A, [5, 5, 5, 5, 5]), await p.castBallot(BEN, A, [6, 6, 6, 6, 6])];
     await expect(p.publishTotals(A, r)).rejects.toThrow(/scoring is still open/);
     await p.closeScoring();
     await p.publishTotals(A, r);
     await expect(p.publishTotals(A, r)).rejects.toThrow(/totals already published/);
+  });
+
+  it("a single judge's scores are never published as totals", async () => {
+    const p = await Panel.ready(["judge-ada", "judge-ben"], ["tally"]);
+    const r = [await p.castBallot(ADA, A, [7, 3, 9, 2, 8])];
+    await p.closeScoring();
+    await expect(p.publishTotals(A, r)).rejects.toThrow(/at least two ballots before totals/);
+    expect(p.ledger.totals.member(A)).toBe(false);
+  });
+
+  it("zero-ballot totals are refused", async () => {
+    const p = await Panel.ready(["judge-ada"], ["tally"]);
+    await p.closeScoring();
+    await expect(p.publishTotals(A, [])).rejects.toThrow(/at least two ballots before totals/);
+    expect(p.ledger.totals.member(A)).toBe(false);
   });
 });
 

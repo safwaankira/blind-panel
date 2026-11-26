@@ -1,0 +1,196 @@
+{
+  "network": "preprod",
+  "contractAddress": "c95752eef1a8b1bcf5fcd5ebd0af451687bc0ed23a5af0cf51d1bf79dde9d0b6",
+  "explorer": {
+    "contract": "https://preprod.midnightexplorer.com/contracts/c95752eef1a8b1bcf5fcd5ebd0af451687bc0ed23a5af0cf51d1bf79dde9d0b6"
+  },
+  "toolchain": {
+    "compact": "0.36.1",
+    "compact-runtime": "0.21.0",
+    "midnight-js": "5.0.1",
+    "wallet-sdk": "2.0.1",
+    "proof-server": "9.0.2"
+  },
+  "maxScore": 10,
+  "projects": {
+    "aurora": "70726f6a6563743a6175726f7261000000000000000000000000000000000000",
+    "basalt": "70726f6a6563743a626173616c74000000000000000000000000000000000000"
+  },
+  "transactions": [
+    {
+      "step": "deploy",
+      "circuit": "constructor",
+      "txId": "0063bfcea26009c3d777ac560896dd24dcc463cc5b13efde38af58f95a9d868a53",
+      "txHash": "b46d2a246b17c6fa1ba6daae8a90e920bcc4bb70de7b40e456261f684cdac9c5",
+      "blockHeight": 3593680,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/b46d2a246b17c6fa1ba6daae8a90e920bcc4bb70de7b40e456261f684cdac9c5"
+    },
+    {
+      "step": "addJudge #1",
+      "circuit": "addJudge",
+      "txId": "000f4287ae11bb0ed9d6451cb55d5373b9dee65045bc0352c0dd0fbb0bd34801d8",
+      "txHash": "4617adaa85ee6d9b1ce1cf38687802951f0c0dc184f2f72720c254a2de7d2c87",
+      "blockHeight": 3593684,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/4617adaa85ee6d9b1ce1cf38687802951f0c0dc184f2f72720c254a2de7d2c87"
+    },
+    {
+      "step": "addJudge #2",
+      "circuit": "addJudge",
+      "txId": "0079f063fcd4aaa2670ee96a5a994f8cfb1def173918755e2fca0bd8164060ec33",
+      "txHash": "451fdbd04b9bbdce96b9ad17c51ff4f534fd26c997d8bec44f7b89a56e1d59f7",
+      "blockHeight": 3593687,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/451fdbd04b9bbdce96b9ad17c51ff4f534fd26c997d8bec44f7b89a56e1d59f7"
+    },
+    {
+      "step": "addJudge #3",
+      "circuit": "addJudge",
+      "txId": "002387d3924881ed15296ce8b0e0b59c4980b2f4cb21febfb49e5c830344709e1b",
+      "txHash": "892eb5eef7ed71b957ad58fffee5110cebf865f649228da63b4e24f821ced249",
+      "blockHeight": 3593691,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/892eb5eef7ed71b957ad58fffee5110cebf865f649228da63b4e24f821ced249"
+    },
+    {
+      "step": "addProject aurora",
+      "circuit": "addProject",
+      "txId": "00fbc2d1a8af38e2b7b7170567281dca871b38bb6ca034db8b3108d5ecd0e06886",
+      "txHash": "ed81d4c7d1ded3299f86e56e5e0402bbc45882c8ff882558091fd61f84000a14",
+      "blockHeight": 3593695,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/ed81d4c7d1ded3299f86e56e5e0402bbc45882c8ff882558091fd61f84000a14"
+    },
+    {
+      "step": "addProject basalt",
+      "circuit": "addProject",
+      "txId": "004e7fac8cec726336c99fb1bb7ec4d52b6404d12e73753f110d314bf817636c9f",
+      "txHash": "0e31fd181eead8de342d865e431e96109e0f79ff64e3fc52c5b93cf79a1c5564",
+      "blockHeight": 3593699,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/0e31fd181eead8de342d865e431e96109e0f79ff64e3fc52c5b93cf79a1c5564"
+    },
+    {
+      "step": "openScoring",
+      "circuit": "openScoring",
+      "txId": "00118ef465055689032c734f6f49a387a980d09a061eabf5c35e6927f248c5be71",
+      "txHash": "446436a12f788819030e9f112fc6b517ae1bfad541087c9ec4d89a3fb187f7cf",
+      "blockHeight": 3593703,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/446436a12f788819030e9f112fc6b517ae1bfad541087c9ec4d89a3fb187f7cf"
+    },
+    {
+      "step": "castBallot judge#1 \u2192 aurora",
+      "circuit": "castBallot",
+      "txId": "007a590bc305d9fddc68411adf24252ce3c93f983edc7e83396a5763926024d65a",
+      "txHash": "e6c3b4580b1f9d382c372ff1ed4f353c4f6d0e774e6ef334613dc9c3fe26a110",
+      "blockHeight": 3593707,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/e6c3b4580b1f9d382c372ff1ed4f353c4f6d0e774e6ef334613dc9c3fe26a110"
+    },
+    {
+      "step": "castBallot judge#2 \u2192 aurora",
+      "circuit": "castBallot",
+      "txId": "0047391f929c3630aa6463b2fb1ccb761d854c2d948732bba6e91e3e0f82a047c3",
+      "txHash": "8d46758aa80ed179b01e52ce8c2f68dbbbe1ba43494799af7cdd6b1ac9c5e8dd",
+      "blockHeight": 3593711,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/8d46758aa80ed179b01e52ce8c2f68dbbbe1ba43494799af7cdd6b1ac9c5e8dd"
+    },
+    {
+      "step": "castBallot judge#3 \u2192 aurora",
+      "circuit": "castBallot",
+      "txId": "003833f98bf32c9a90a1b489922627a53c45ed4f9a4954249e11371f4c6e821359",
+      "txHash": "30a775887160ded4560fb95ec0f8513f4a8da7f6137e8cd946bb1db0b77880df",
+      "blockHeight": 3593715,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/30a775887160ded4560fb95ec0f8513f4a8da7f6137e8cd946bb1db0b77880df"
+    },
+    {
+      "step": "castBallot judge#1 \u2192 basalt",
+      "circuit": "castBallot",
+      "txId": "00c1d5bafc39dcd35e52b011c5d33f99eeda1edde0a7d47be061729f149fd57ed7",
+      "txHash": "1895964055e86470f09f498230cc29df4c062ff24cbbf8e173115f16ed77e43b",
+      "blockHeight": 3593719,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/1895964055e86470f09f498230cc29df4c062ff24cbbf8e173115f16ed77e43b"
+    },
+    {
+      "step": "castBallot judge#2 \u2192 basalt",
+      "circuit": "castBallot",
+      "txId": "006ce550b3e4d353ef9bdb56ec8863f5f1c8a7ef2c6cc44103af6037808d14eb39",
+      "txHash": "b79d48db851749eb1541ca6413103defc9a1746f6dfb1b0763b43687d379d5c9",
+      "blockHeight": 3593723,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/b79d48db851749eb1541ca6413103defc9a1746f6dfb1b0763b43687d379d5c9"
+    },
+    {
+      "step": "closeScoring",
+      "circuit": "closeScoring",
+      "txId": "00074d2fbd54964df4997cbc964668a136ecf1cb5fb6916310ae81b31665ec4d23",
+      "txHash": "9fe92697e4249f0810dd8422d6c1233e08e00f9e86e4c3b54022e6e533d08cc5",
+      "blockHeight": 3593727,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/9fe92697e4249f0810dd8422d6c1233e08e00f9e86e4c3b54022e6e533d08cc5"
+    },
+    {
+      "step": "publishTotals aurora",
+      "circuit": "publishTotals",
+      "txId": "00b96fe945d868d4d777bf474ec88aa67ab363feb6da30e5beda191b6d1198a9c5",
+      "txHash": "ac558e6d5832c91dd95a95ebff9a418d6e6be2ab287336dfcac7c92a16cdd114",
+      "blockHeight": 3593731,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/ac558e6d5832c91dd95a95ebff9a418d6e6be2ab287336dfcac7c92a16cdd114"
+    },
+    {
+      "step": "publishTotals basalt",
+      "circuit": "publishTotals",
+      "txId": "009ae78599739ae019964df46397354465cc612641744f8e5ca2432a44e96c7697",
+      "txHash": "d31067905f772d288bcfb3b265b90e5a6d0a41c99d288a0b722dc933c0ee0ee9",
+      "blockHeight": 3593735,
+      "explorer": "https://preprod.midnightexplorer.com/transactions/d31067905f772d288bcfb3b265b90e5a6d0a41c99d288a0b722dc933c0ee0ee9"
+    }
+  ],
+  "results": {
+    "phase": 2,
+    "ballotCount": 5,
+    "judgeCount": 3,
+    "totals": {
+      "aurora": {
+        "ballots": 3,
+        "totals": [
+          24,
+          21,
+          24,
+          21,
+          24
+        ],
+        "expected": [
+          24,
+          21,
+          24,
+          21,
+          24
+        ],
+        "match": true
+      },
+      "basalt": {
+        "ballots": 2,
+        "totals": [
+          11,
+          11,
+          13,
+          12,
+          11
+        ],
+        "expected": [
+          11,
+          11,
+          13,
+          12,
+          11
+        ],
+        "match": true
+      }
+    },
+    "receiptCheck": {
+      "project": "aurora",
+      "slot": 0,
+      "mode": "off-chain (pure commitmentOf vs ledger ballots)",
+      "ledgerCommitment": "9f995728e7376a43212f6e43f4935400e7bb94bd0b40107dfa76ef9c8eee8be0",
+      "match": true
+    }
+  },
+  "walletSetup": {
+    "step": "register tNIGHT for DUST generation",
+    "txId": "00328c46c45c55b30e82c0faea1d1449e3d0cc741cea8dc76b9138867ccf5e14ae",
+    "note": "id returned by Wallet SDK submitTransaction; not a contract call"
+  }
+}
