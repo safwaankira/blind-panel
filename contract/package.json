@@ -7,11 +7,31 @@
   "scripts": {
     "compile": "compact compile +0.36.1 src/blind_panel.compact build",
     "compile:fast": "compact compile +0.36.1 --skip-zk src/blind_panel.compact build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "wallet:new": "tsx deploy/new-wallet.ts",
+    "wallet:address": "tsx deploy/new-wallet.ts --show",
+    "deploy:preprod": "tsx deploy/run-preprod.ts",
+    "typecheck:deploy": "tsc -p deploy/tsconfig.json"
   },
   "devDependencies": {
     "@midnight-ntwrk/compact-runtime": "0.21.0",
-    "vitest": "^4.0.18",
-    "typescript": "^5.9.3"
+    "@types/node": "^22.20.7",
+    "@types/ws": "^8.18.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "@midnight-ntwrk/midnight-js-contracts": "5.0.1",
+    "@midnight-ntwrk/midnight-js-http-client-proof-provider": "5.0.1",
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "5.0.1",
+    "@midnight-ntwrk/midnight-js-level-private-state-provider": "5.0.1",
+    "@midnight-ntwrk/midnight-js-node-zk-config-provider": "5.0.1",
+    "@midnight-ntwrk/midnight-js-protocol": "5.0.1",
+    "@midnight-ntwrk/midnight-js-types": "5.0.1",
+    "@midnight-ntwrk/midnight-js-utils": "5.0.1",
+    "@midnightntwrk/wallet-sdk": "2.0.1",
+    "rxjs": "7.8.2",
+    "ws": "8.18.3"
   }
 }

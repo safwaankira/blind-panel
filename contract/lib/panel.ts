@@ -33,7 +33,8 @@ export interface PS {
   forgePath?: boolean;
 }
 
-const witnesses: Witnesses<PS> = {
+/** Shared by the local engine and the Preprod deploy script (contract/deploy). */
+export const witnesses: Witnesses<PS> = {
   organizerSecret: ({ privateState }) => [privateState, privateState.organizerSecret],
   judgeSecret: ({ privateState }) => [privateState, privateState.judgeSecret],
   judgePath: ({ privateState, ledger: l }, leaf) => {

@@ -2,3 +2,10 @@ node_modules/
 dist/
 contract/build/
 *.log
+# secrets and local deploy state (never commit)
+.env
+.env.*
+contract/deploy/.run-state*.json
+contract/deploy/.wallet-state*.json
+contract/deploy/.private-state*/
+midnight-level-db/

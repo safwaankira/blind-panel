@@ -173,6 +173,9 @@ export circuit publishTotals(project: Bytes<32>): [] {
   assert(!totals.member(p), "totals already published");
 
   const n = panelSize.lookup(p);
+  // One ballot's totals are that judge's exact scores, and zero ballots say
+  // nothing: either would undo the point of a blind panel.
+  assert(n >= 2, "at least two ballots before totals");
   const ops = projectOpenings(p);
   const sum = fold((acc: Vector<5, Uint<16>>, op: Opening, i: Uint<8>): Vector<5, Uint<16>> => {
       const used = i < n;
